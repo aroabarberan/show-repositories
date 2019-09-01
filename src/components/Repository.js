@@ -1,44 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addRepository } from '../actions/repositories';
-import { withStyles } from "@material-ui/core/styles";
+import { addRepositories } from '../actions/repositories';
+import {
+  Table, TableBody, TableCell, TableHead, TableRow, Paper
+} from '@material-ui/core/';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(10),
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 650,
-  },
-  img: {
-    width: 150,
-    high: 150
-  }
-});
+const url = 'https://api.github.com/repositories';
 
 
 class Repository extends React.Component {
 
   componentDidMount() {
-    fetch('https://api.github.com/repositories')
+    fetch(url)
       .then(res => res.json())
-      .then(repositories => repositories.map(repository => this.props.addRepository(repository)))
+      .then(repositories => this.props.addRepositories(repositories))
   }
+
   render() {
-    const { classes, repositories } = this.props;
-    console.log(repositories);
+    const { repositories } = this.props;
     return (
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
+      <Paper style={{ width: '100%', marginTop: 60, overflowX: 'auto' }}>
+        <Table style={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
               <TableCell>Avatar</TableCell>
@@ -50,7 +32,11 @@ class Repository extends React.Component {
           <TableBody>
             {repositories.map(repository => (
               <TableRow key={repository.id}>
-                <TableCell component="th" scope="row"><img className={classes.img} src={repository.owner.avatar_url}/></TableCell>
+                <TableCell component="th" scope="row">
+                  <img style={{ width: 150, high: 150 }}
+                    src={repository.owner.avatar_url}
+                    alt="" />
+                </TableCell>
                 <TableCell>{repository.name}</TableCell>
                 <TableCell>{repository.full_name}</TableCell>
                 <TableCell>{repository.description}</TableCell>
@@ -69,11 +55,13 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  addRepository: (repository) => {
-    dispatch(addRepository(repository))
+  addRepositories: (repositories) => {
+    dispatch(addRepositories(repositories))
   },
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Repository))
+export default connect(mapStateToProps, mapDispatchToProps)(Repository);
+
+
 

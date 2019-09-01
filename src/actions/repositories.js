@@ -1,4 +1,4 @@
-export const addRepository = (repository) => ({
-  type: 'ADD_REPOSITORY',
-  payload: repository
+export const addRepositories = (repositories) => ({
+  type: 'ADD_REPOSITORIES',
+  payload: repositories
 })

@@ -10,7 +10,7 @@ import Routes from './routes';
 
 
 ReactDOM.render(
-  <MuiThemeProvider>
+  <MuiThemeProvider> 
     <Provider store={store}>
       <Routes />
     </Provider>

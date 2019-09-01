@@ -2,9 +2,8 @@ import React from 'react';
 import { Formik, Field } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Divider, Button, Dialog, DialogTitle, TextField,
-  ListItemText, DialogActions, DialogContent, MenuItem,
-  withStyles, ListItemIcon,
+  Divider, Button, DialogTitle, TextField,
+  DialogActions, DialogContent, MenuItem,
 } from '@material-ui/core';
 
 
@@ -23,12 +22,13 @@ function FormContact() {
   return (
     <div>
       <Formik
-        initialValues={{ name: '', message: '' }}
+        initialValues={{ name: '', message: '', info:'' }}
         onSubmit={(values, actions) => {
+          values.info = "the form has been sent successfully";
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
-          }, 1000);
+          }, 500);
         }}
         render={props => (
           <form onSubmit={props.handleSubmit}>
@@ -48,7 +48,7 @@ function FormContact() {
                     type="text"
                     variant='outlined'
                     fullWidth
-                    error={!!props.errors.name}
+                    error={!!props.errors.name}S
                   />
                 )}
               />
@@ -59,7 +59,6 @@ function FormContact() {
                     name='message'
                     {...field}
                     id="outlined-multiline-static"
-                    label="message"
                     label={props.errors.message || 'Message'}
                     multiline
                     rows="5"
